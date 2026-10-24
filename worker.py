@@ -6,8 +6,10 @@ script). Live audio does not pass through this PyWorker: the CelestiAI app opens
 as active users grow, and the browser then streams audio to the worker over its own HTTPS
 tunnel. The RVC server ends the session when the user disconnects.
 
-Capacity is measured by the benchmark below in seconds of audio converted per second of
-wall time; the app charges each live user a fixed cost in the same unit.
+Capacity is measured in live users: the RVC server's /vast/bench converts real audio and
+pads to real time, so a worker that keeps up reports 1.0 (one user, max_sessions=1) and a
+slower one less. The app charges each live user 1.0, so with the endpoint's target
+utilisation the autoscaler keeps a spare worker ahead of demand.
 """
 from vastai import BenchmarkConfig, HandlerConfig, LogActionConfig, Worker, WorkerConfig
 
